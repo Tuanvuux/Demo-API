@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class BranchService : IIndividualService
+    public class IndividualService : IIndividualService
     {
         private readonly IIndividualRepository _IndividualRepository;
 
-        public BranchService(IIndividualRepository IndividualRepository)
+        public IndividualService(IIndividualRepository IndividualRepository)
         {
             _IndividualRepository = IndividualRepository;
         }

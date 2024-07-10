@@ -41,13 +41,13 @@ namespace DAL.Entities
         public string? Title {  get; set; }
 
         [Column("ASSIGNED_BRANCH_ID")]
-        public int? AssignedBranchId;
+        public int AssignedBranchId { get; set; }
 
         [Column("DEPT_ID")]
-        public int? DeptId {  get; set; }  
+        public int DeptId {  get; set; }  
 
         [Column("SUPERIOR_EMP_ID")]
-        public int? SuperiorEmpId { get; set; }
+        public int SuperiorEmpId { get; set; }
 
 
 

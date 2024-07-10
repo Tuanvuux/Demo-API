@@ -12,9 +12,8 @@ namespace DAL.Entities
     public class Product
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("PRODUCT_CD")]
-        [StringLength(2)]
+        [StringLength(10)]
         [Required]
         public string ProductCd { get; set; }
 
@@ -33,7 +32,7 @@ namespace DAL.Entities
 
         [Column("PRODUCT_TYPE_CD")]
         [StringLength(10)]
-        public string? ProductTypeCd;
+        public string? ProductTypeCd { get; set; }
 
     }
 }

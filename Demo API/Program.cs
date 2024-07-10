@@ -30,13 +30,25 @@ namespace Demo_API
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
             builder.Services.AddScoped<IIndividualRepository, IndividualRepository>();
-            builder.Services.AddScoped<IBranchRepository, IBranchRepository>();
+            builder.Services.AddScoped<IBranchRepository, BranchRepository>();
+            builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+            builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            builder.Services.AddScoped<IProductTypeRepository, ProductTypeRepository>();
+            builder.Services.AddScoped<IProductRepository, ProductRepository>();
+            builder.Services.AddScoped<IAccountRepository, AccountRepository>();
+            builder.Services.AddScoped<IAccTransactionRepository, AccTransactionRepository>();
 
             //Service
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddScoped<IBusinessService, BusinessService>();
-            builder.Services.AddScoped<IIndividualService, BranchService>();
+            builder.Services.AddScoped<IIndividualService, IndividualService>();
             builder.Services.AddScoped<IBranchService, BranchService>();
+            builder.Services.AddScoped<IDepartmentService, DepartmentService>();
+            builder.Services.AddScoped<IEmployeeService, EmployeeService>();
+            builder.Services.AddScoped<IProductService, ProductService>();
+            builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
+            builder.Services.AddScoped<IAccountService, AccountService>();
+            builder.Services.AddScoped<IAccTransactionService, AccTransactionService>();
 
 
 

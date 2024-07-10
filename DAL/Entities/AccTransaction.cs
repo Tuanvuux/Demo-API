@@ -34,13 +34,13 @@ namespace DAL.Entities
         public string? TxnTypeCd {  get; set; }
 
         [Column("ACCOUNT_ID")]
-        public int? AccountId { get; set; }
+        public int AccountId { get; set; }
 
         [Column("EXCUTION_BRANCH_ID")]
-        public int? ExcutionBranchId { get; set; }
+        public int ExcutionBranchId { get; set; }
 
         [Column("TELLER_EMP_ID")]
-        public int? TellerEmpId { get; set; }
+        public int TellerEmpId { get; set; }
 
 
     }

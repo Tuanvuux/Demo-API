@@ -12,7 +12,6 @@ namespace DAL.Entities
     public class ProductType
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Column("PRODUCT_TYPE_CD")]
         [StringLength(10)]
         [Required]

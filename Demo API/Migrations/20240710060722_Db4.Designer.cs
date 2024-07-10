@@ -4,6 +4,7 @@ using DAL.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo_API.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240710060722_Db4")]
+    partial class Db4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -337,8 +340,9 @@ namespace Demo_API.Migrations
             modelBuilder.Entity("DAL.Entities.Product", b =>
                 {
                     b.Property<string>("ProductCd")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
+                        .ValueGeneratedOnAdd()
+                        .HasMaxLength(2)
+                        .HasColumnType("nvarchar(2)")
                         .HasColumnName("PRODUCT_CD");
 
                     b.Property<DateTime?>("DateOffered")
@@ -355,11 +359,6 @@ namespace Demo_API.Migrations
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Name");
 
-                    b.Property<string>("ProductTypeCd")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)")
-                        .HasColumnName("PRODUCT_TYPE_CD");
-
                     b.HasKey("ProductCd");
 
                     b.ToTable("PRODUCT");
@@ -368,6 +367,7 @@ namespace Demo_API.Migrations
             modelBuilder.Entity("DAL.Entities.ProductType", b =>
                 {
                     b.Property<string>("ProductTypeCd")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)")
                         .HasColumnName("PRODUCT_TYPE_CD");

@@ -1,4 +1,5 @@
-﻿using DAL.Entities;
+﻿using DAL.DTO;
+using DAL.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,8 @@ namespace DAL.Context
         public DbSet<Individual> Individuals { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductType> ProductTypes { get; set; }
+
+        
         #endregion
     }
 }
