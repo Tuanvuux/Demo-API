@@ -39,12 +39,13 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _BusinessService.Add(business);
-                return Ok();
+                var Bu=_BusinessService.Add(business);
+                return Ok(Bu);
             }
-            catch
+            catch (AggregateException ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 
@@ -53,8 +54,8 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _BusinessService?.Delete(id);
-                return Ok();
+                var business=_BusinessService.Delete(id);
+                return Ok(business);
             }
             catch
             {
@@ -65,16 +66,17 @@ namespace Demo_API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Business business)
         {
-            var data = _BusinessService.GetById(id);
-            if (data != null)
+            try
             {
+                var data = _BusinessService.GetById(id);       
                 business.CustId = data.CustId;
-                _BusinessService.Update(business);
-                return Ok();
+                var Acc=_BusinessService.Update(business);
+                return Ok(Acc);
             }
-            else
+            catch (AggregateException ex)
             {
-                return BadRequest();
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 

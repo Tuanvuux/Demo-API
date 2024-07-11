@@ -21,7 +21,7 @@ namespace BLL.Services
             _ProductTypeRepository = productTypeRepository;
         }
 
-        public void Add(Product product)
+        public Product Add(Product product)
         {
             var errors = new List<string>();
 
@@ -43,12 +43,15 @@ namespace BLL.Services
                 throw new AggregateException(errors.Select(e => new Exception(e)));
             }
 
-            _ProductRepository.Add(product);
+            Product pro=_ProductRepository.Add(product);
+            return pro;
         }
 
-        public void Delete(int id)
+        public Product Delete(int id)
         {
-            _ProductRepository.Remove(GetById(id));
+        
+            Product product = _ProductRepository.Remove(GetById(id));
+            return product;
         }
 
         public IEnumerable<Product> GetAll()
@@ -61,10 +64,34 @@ namespace BLL.Services
             return _ProductRepository.GetById(id); ;
         }
 
-        public void Update(Product product)
+        public Product Update(Product product)
         {
+            var errors = new List<string>();
 
-            throw new NotImplementedException();
+
+            ProductType productType = _ProductTypeRepository.FindById(product.ProductTypeCd);
+            if (productType == null)
+            {
+                errors.Add("ProductType does not exist");
+            }
+
+            
+
+            var existingProduct = _ProductRepository.FindById(product.ProductCd);
+            if (existingProduct == null)
+            {
+                errors.Add("Product not found");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingProduct.DateOffered = product.DateOffered;
+            existingProduct.DateRetired = product.DateRetired;
+            existingProduct.Name = product.Name;
+            existingProduct.ProductTypeCd = product.ProductTypeCd;
+            Product prod = _ProductRepository.Update(existingProduct);
+            return prod;
         }
     }
 }

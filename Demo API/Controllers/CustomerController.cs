@@ -16,6 +16,11 @@ namespace Demo_API.Controllers
         {
             _CustomerService = CustomerService;
         }
+        [HttpGet("{name}")]
+        public IActionResult GetName(string name)
+        {
+            throw new NotImplementedException();
+        }
 
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -38,22 +43,15 @@ namespace Demo_API.Controllers
         [HttpPost]
         public IActionResult AddDTO(CustomerDTO customerDTO)
         {
-            if (customerDTO.CustTypeCd == "B" || customerDTO.CustTypeCd.Equals("I"))
+        try
+        {
+            var Cus=_CustomerService.AddDTO(customerDTO);
+            return Ok(Cus);
+        }
+        catch (AggregateException ex)
             {
-                try
-                {
-                    _CustomerService.AddDTO(customerDTO);
-                    return Ok("Customer registered successfully.");
-                }
-                catch
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError);
-                }
-
-            }
-            else
-            {
-                return BadRequest("CUST_TYPE_CD Invalid");
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
 
         }
@@ -63,8 +61,8 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _CustomerService?.Delete(id);
-                return Ok();
+                var customer=_CustomerService.Delete(id);
+                return Ok(customer);
             }
             catch
             {
@@ -75,16 +73,18 @@ namespace Demo_API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Customer customer)
         {
+            try
+            { 
             var data = _CustomerService.GetById(id);
-            if (data != null)
-            {
+            
                 customer.CustId = data.CustId;
-                _CustomerService.Update(customer);
-                return Ok();
+                var Cus=_CustomerService.Update(customer);
+                return Ok(Cus);
             }
-            else
+            catch (AggregateException ex)
             {
-                return BadRequest();
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 

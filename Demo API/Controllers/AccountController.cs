@@ -39,17 +39,13 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _AccountService.Add(account);
-                return Ok();
+                var Acc=_AccountService.Add(account);
+                return Ok(Acc);
             }
             catch (AggregateException ex)
             {
                 var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
                 return BadRequest(new { Errors = errors });
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Error = "An error occurred while add the Account." });
             }
         }
 
@@ -58,8 +54,8 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _AccountService?.Delete(id);
-                return Ok();
+                var account=_AccountService.Delete(id);
+                return Ok(account);
             }
             catch
             {
@@ -70,17 +66,19 @@ namespace Demo_API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Account account)
         {
+            try { 
             var data = _AccountService.GetById(id);
-            if (data != null)
-            {
+            
                 account.Account_Id = data.Account_Id;
-                _AccountService.Update(account);
-                return Ok();
+                Account acc =_AccountService.Update(account);
+                return Ok(acc);
             }
-            else
+            catch (AggregateException ex)
             {
-                return BadRequest();
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
+
         }
 
 

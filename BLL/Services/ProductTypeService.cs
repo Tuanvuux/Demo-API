@@ -1,5 +1,6 @@
 ﻿using BLL.Services.IServices;
 using DAL.Entities;
+using DAL.Repositories;
 using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,16 @@ namespace BLL.Services
             _ProductTypeRepository = ProductTypeRepository;
         }
 
-        public void Add(ProductType productType)
+        public ProductType Add(ProductType productType)
         {
-            _ProductTypeRepository.Add(productType);
+            ProductType prod=_ProductTypeRepository.Add(productType);
+            return prod;
         }
 
-        public void Delete(int id)
+        public ProductType Delete(int id)
         {
-            _ProductTypeRepository.Remove(GetById(id));
+            ProductType prod = _ProductTypeRepository.Remove(GetById(id));
+            return prod;
         }
 
         public IEnumerable<ProductType> GetAll()
@@ -38,10 +41,24 @@ namespace BLL.Services
             return _ProductTypeRepository.GetById(id); ;
         }
 
-        public void Update(ProductType productType)
+        public ProductType Update(ProductType productType)
         {
-
-            this._ProductTypeRepository.Update(productType);
+            var errors = new List<string>();
+            var existingProductType = _ProductTypeRepository.FindById(productType.ProductTypeCd);
+            if (existingProductType != null)
+            {
+                errors.Add("ProductType is not exist");
+                
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingProductType.Name = productType.Name;
+            ProductType prod=_ProductTypeRepository.Update(existingProductType);
+            return prod;
         }
+
+       
     }
 }

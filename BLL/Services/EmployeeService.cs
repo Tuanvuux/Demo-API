@@ -23,7 +23,7 @@ namespace BLL.Services
             _DepartmentRepository = DepartmentRepository;
         }
 
-        public void Add(Employee employee)
+        public Employee Add(Employee employee)
         {
             Employee validEmployee = _EmployeeRepository.GetById(employee.SuperiorEmpId);
             Branch validBranch = _BranchRepository.GetById(employee.AssignedBranchId);
@@ -48,12 +48,16 @@ namespace BLL.Services
             {
                 throw new AggregateException(errors.Select(e => new Exception(e)));
             }
-            _EmployeeRepository.Add(employee);
+            Employee employ=_EmployeeRepository.Add(employee);
+            return employ;
         }
 
-        public void Delete(int id)
+        public Employee Delete(int id)
         {
-            _EmployeeRepository.Remove(GetById(id));
+
+            Employee employee = _EmployeeRepository.Remove(GetById(id));
+            return employee;
+            
         }
 
         public IEnumerable<Employee> GetAll()
@@ -66,10 +70,49 @@ namespace BLL.Services
             return _EmployeeRepository.GetById(id); ;
         }
 
-        public void Update(Employee employee)
+        public Employee Update(Employee employee)
         {
+            Employee validEmployee = _EmployeeRepository.GetById(employee.SuperiorEmpId);
+            Branch validBranch = _BranchRepository.GetById(employee.AssignedBranchId);
+            Department validDepartment = _DepartmentRepository.GetById(employee.DeptId);
+            var errors = new List<string>();
 
-            throw new NotImplementedException();
+
+
+            if (validEmployee == null)
+            {
+                errors.Add("SuperiorEmpId Invalid");
+            }
+            if (validBranch == null)
+            {
+                errors.Add("Branch does not exist");
+            }
+            if (validDepartment == null)
+            {
+                errors.Add("Department does not exist");
+            }
+            
+
+            var existingEmployee = _EmployeeRepository.GetById(employee.EmpId);
+            if (existingEmployee == null)
+            {
+                errors.Add("Employee not found");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingEmployee.EndDate = employee.EndDate;
+            existingEmployee.StartDate = employee.StartDate;
+            existingEmployee.FirstName = employee.FirstName;
+            existingEmployee.LastName = employee.LastName;
+            existingEmployee.Title = employee.Title;
+            existingEmployee.AssignedBranchId = employee.AssignedBranchId;
+            existingEmployee.DeptId = employee.DeptId;
+            existingEmployee.SuperiorEmpId = employee.SuperiorEmpId;
+
+            Employee employ = _EmployeeRepository.Update(existingEmployee);
+            return employ;
         }
     }
 }

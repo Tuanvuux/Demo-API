@@ -11,8 +11,8 @@ namespace BLL.Services.IServices
     {
         IEnumerable<Branch> GetAll();
         Branch GetById(int id);
-        void Add(Branch branch);
-        void Update(Branch branch);
-        void Delete(int id);
+        Branch Add(Branch branch);
+        Branch Update(Branch branch);
+        Branch Delete(int id);
     }
 }

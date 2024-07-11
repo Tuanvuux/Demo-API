@@ -11,9 +11,9 @@ namespace BLL.Services.IServices
     {
         IEnumerable<Individual> GetAll();
         Individual GetById(int id);
-        void Add(Individual individual);
-        void Update(Individual individual);
-        void Delete(int id);
+        Individual Add(Individual individual);
+        Individual Update(Individual individual);
+        Individual Delete(int id);
 
     }
 }

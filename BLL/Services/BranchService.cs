@@ -1,5 +1,6 @@
 ﻿using BLL.Services.IServices;
 using DAL.Entities;
+using DAL.Repositories;
 using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -15,14 +16,16 @@ namespace BLL.Services
         public BranchService(IBranchRepository BranchRepository) {
             _BranchRepository = BranchRepository;
         }
-        public void Add(Branch branch)
+        public Branch Add(Branch branch)
         {
-            _BranchRepository.Add(branch);
+            Branch br= _BranchRepository.Add(branch);
+            return br;
         }
 
-        public void Delete(int id)
+        public Branch Delete(int id)
         {
-            throw new NotImplementedException();
+            Branch br = _BranchRepository.Remove(GetById(id));
+            return br;
         }
 
         public IEnumerable<Branch> GetAll()
@@ -35,9 +38,26 @@ namespace BLL.Services
             throw new NotImplementedException();
         }
 
-        public void Update(Branch branch)
+        public Branch Update(Branch branch)
         {
-            throw new NotImplementedException();
+            var errors = new List<string>();
+            var existingBranch = _BranchRepository.GetById(branch.BranchId);
+            if (existingBranch == null)
+            {
+                errors.Add("Branch does not exist");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingBranch.Address = branch.Address;
+            existingBranch.City = branch.City;
+            existingBranch.State = branch.State;
+            existingBranch.ZipCode = branch.ZipCode;
+            existingBranch.Name = branch.Name;
+
+            Branch br =  _BranchRepository.Update(existingBranch);
+            return br;
         }
     }
 }

@@ -12,6 +12,7 @@ namespace DAL.Entities
     public class Business
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("CUST_ID")]
         [Required]
         public int CustId { get; set; }

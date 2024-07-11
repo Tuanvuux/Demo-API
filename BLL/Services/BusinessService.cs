@@ -18,14 +18,17 @@ namespace BLL.Services
             _BusinessRepository = BusinessRepository;
         }
 
-        public void Add(Business business)
+        public Business Add(Business business)
         {
-            _BusinessRepository.Add(business);
+            Business busi=_BusinessRepository.Add(business);
+            return busi;
+
         }
 
-        public void Delete(int id)
+        public Business Delete(int id)
         {
-            _BusinessRepository.Remove(GetById(id));
+            Business busi = _BusinessRepository.Remove(GetById(id));
+            return busi;
         }
 
         public IEnumerable<Business> GetAll()
@@ -38,17 +41,23 @@ namespace BLL.Services
             return _BusinessRepository.GetById(id); ;
         }
 
-        public void Update(Business business)
+        public Business Update(Business business)
         {
-
+            var errors = new List<string>();
             var existingBusiness = _BusinessRepository.GetById(business.CustId);
             if (existingBusiness != null)
             {
-                existingBusiness.IncorpDate=business.IncorpDate;
-                existingBusiness.Name=business.Name;
-                existingBusiness.StateId=business.StateId;
-                _BusinessRepository.Update(business);
+                errors.Add("Busniess is not exist");
             }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingBusiness.IncorpDate = business.IncorpDate;
+            existingBusiness.Name = business.Name;
+            existingBusiness.StateId = business.StateId;
+            Business busi=_BusinessRepository.Update(business);
+            return busi;
         }
     }
 }

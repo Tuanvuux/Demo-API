@@ -39,12 +39,13 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _IndividualService.Add(individual);
-                return Ok();
+                var ind=_IndividualService.Add(individual);
+                return Ok(ind);
             }
-            catch
+            catch (AggregateException ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 
@@ -53,8 +54,8 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _IndividualService?.Delete(id);
-                return Ok();
+                var ind=_IndividualService.Delete(id);
+                return Ok(ind);
             }
             catch
             {
@@ -65,16 +66,18 @@ namespace Demo_API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, Individual individual)
         {
+            try
+            { 
             var data = _IndividualService.GetById(id);
-            if (data != null)
-            {
+            
                 individual.Cust_Id = data.Cust_Id;
-                _IndividualService.Update(individual);
-                return Ok();
+                var Ind=_IndividualService.Update(individual);
+                return Ok(Ind);
             }
-            else
+            catch (AggregateException ex)
             {
-                return BadRequest();
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 

@@ -12,10 +12,10 @@ namespace BLL.Services.IServices
     {
         IEnumerable<Customer> GetAll();
         Customer GetById(int id);
-        void Add(Customer customer);
-        void Update(Customer customer);
-        void Delete(int id);
-        void AddDTO(CustomerDTO customerDTO);
+        Customer Add(Customer customer);
+        Customer Update(Customer customer);
+        Customer Delete(int id);
+        CustomerDTO AddDTO(CustomerDTO customerDTO);
 
     }
 }

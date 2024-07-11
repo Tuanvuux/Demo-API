@@ -42,7 +42,7 @@ namespace DAL.Entities
         public string? Status { get; set; }
 
         [Column("CUST_ID")]
-        public int CustId;
+        public int CustId { get; set; }
         [Column("OPEN_EMP_ID")]
         [Required]
         public int OpenEmpId { get; set; }

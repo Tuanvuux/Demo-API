@@ -9,5 +9,6 @@ namespace DAL.Repositories.Interfaces
 {
     public interface IAccTransactionRepository: IRepository<AccTransaction>
     {
+        AccTransaction GetById(long id);
     }
 }

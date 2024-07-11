@@ -39,18 +39,15 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _AccTransactionService.Add(accTransaction);
-                return Ok(new { Message = "AccTransaction added successfully" });
+                AccTransaction Acctran=_AccTransactionService.Add(accTransaction);
+                return Ok(Acctran);
             }
             catch (AggregateException ex)
             {
                 var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
                 return BadRequest(new { Errors = errors });
             }
-            catch (Exception ex)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Error = "An error occurred while adding the AccTransaction." });
-            }
+            
         }
 
         [HttpDelete]
@@ -58,8 +55,8 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _AccTransactionService?.Delete(id);
-                return Ok();
+                var AccTran=_AccTransactionService?.Delete(id);
+                return Ok(AccTran);
             }
             catch
             {
@@ -70,16 +67,18 @@ namespace Demo_API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, AccTransaction accTransaction)
         {
-            var data = _AccTransactionService.GetById(id);
-            if (data != null)
+            try
             {
+                var data = _AccTransactionService.GetById(id);
+            
                 accTransaction.Txn_Id = data.Txn_Id;
-                _AccTransactionService.Update(accTransaction);
-                return Ok();
+                var AccTran= _AccTransactionService.Update(accTransaction);
+                return Ok(AccTran);
             }
-            else
+            catch (AggregateException ex)
             {
-                return BadRequest();
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 

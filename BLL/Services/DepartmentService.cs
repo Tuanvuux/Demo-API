@@ -1,5 +1,6 @@
 ﻿using BLL.Services.IServices;
 using DAL.Entities;
+using DAL.Repositories;
 using DAL.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,14 +19,17 @@ namespace BLL.Services
             _DepartmentRepository = DepartmentRepository;
         }
 
-        public void Add(Department department)
+        public Department Add(Department department)
         {
-            _DepartmentRepository.Add(department);
+            Department dep=_DepartmentRepository.Add(department);
+            return dep;
         }
 
-        public void Delete(int id)
+        public Department Delete(int id)
         {
-            _DepartmentRepository.Remove(GetById(id));
+         
+            Department department = _DepartmentRepository.Remove(GetById(id));
+            return department;
         }
 
         public IEnumerable<Department> GetAll()
@@ -38,9 +42,22 @@ namespace BLL.Services
             return _DepartmentRepository.GetById(id); ;
         }
 
-        public void Update(Department department)
+        public Department Update(Department department)
         {
-            throw new NotImplementedException();
+            var errors = new List<string>();
+            var existingDepartment = _DepartmentRepository.GetById(department.DeptId);
+            if (existingDepartment == null)
+            {
+                errors.Add("Department is not exits");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingDepartment.Name = department.Name;
+
+            Department dep = _DepartmentRepository.Update(existingDepartment);
+            return dep;
         }
     }
 }

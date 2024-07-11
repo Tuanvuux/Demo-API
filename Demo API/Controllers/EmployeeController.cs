@@ -1,4 +1,5 @@
-﻿using BLL.Services.IServices;
+﻿using BLL.Services;
+using BLL.Services.IServices;
 using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,18 +20,47 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _EmployeeService.Add(employee);
-                return Ok(new { Message = "Employee added successfully" });
+                var emp=_EmployeeService.Add(employee);
+                return Ok(emp);
             }
             catch (AggregateException ex)
             {
                 var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
                 return BadRequest(new { Errors = errors });
             }
-            catch (Exception ex)
+           
+        }
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            try
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Error = "An error occurred while adding the employee." });
+                var account = _EmployeeService.Delete(id);
+                return Ok(account);
             }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, Employee employee)
+        {
+            try
+            {
+                var data = _EmployeeService.GetById(id);
+
+                employee.EmpId = data.EmpId;
+                var emp = _EmployeeService.Update(employee);
+                return Ok(emp);
+            }
+            catch (AggregateException ex)
+            {
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
+            }
+
         }
 
     }

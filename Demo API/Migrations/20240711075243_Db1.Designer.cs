@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Demo_API.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    [Migration("20240710063817_Db6")]
-    partial class Db6
+    [Migration("20240711075243_Db1")]
+    partial class Db1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,7 +34,7 @@ namespace Demo_API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Txn_Id"));
 
-                    b.Property<int?>("AccountId")
+                    b.Property<int>("AccountId")
                         .HasColumnType("int")
                         .HasColumnName("ACCOUNT_ID");
 
@@ -42,7 +42,7 @@ namespace Demo_API.Migrations
                         .HasColumnType("real")
                         .HasColumnName("AMOUNT");
 
-                    b.Property<int?>("ExcutionBranchId")
+                    b.Property<int>("ExcutionBranchId")
                         .HasColumnType("int")
                         .HasColumnName("EXCUTION_BRANCH_ID");
 
@@ -50,7 +50,7 @@ namespace Demo_API.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("FUNDS_AVAIL_DATE");
 
-                    b.Property<int?>("TellerEmpId")
+                    b.Property<int>("TellerEmpId")
                         .HasColumnType("int")
                         .HasColumnName("TELLER_EMP_ID");
 
@@ -84,6 +84,10 @@ namespace Demo_API.Migrations
                     b.Property<DateOnly?>("CloseDate")
                         .HasColumnType("date")
                         .HasColumnName("CLOSE_DATE");
+
+                    b.Property<int>("CustId")
+                        .HasColumnType("int")
+                        .HasColumnName("CUST_ID");
 
                     b.Property<DateOnly?>("LastActivityDay")
                         .HasColumnType("date")
@@ -164,11 +168,8 @@ namespace Demo_API.Migrations
             modelBuilder.Entity("DAL.Entities.Business", b =>
                 {
                     b.Property<int>("CustId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("CUST_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CustId"));
 
                     b.Property<DateOnly?>("IncorpDate")
                         .HasColumnType("date")
@@ -310,11 +311,8 @@ namespace Demo_API.Migrations
             modelBuilder.Entity("DAL.Entities.Individual", b =>
                 {
                     b.Property<int>("Cust_Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("CUST_ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Cust_Id"));
 
                     b.Property<DateOnly>("BirthDay")
                         .HasColumnType("date")
@@ -357,6 +355,11 @@ namespace Demo_API.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Name");
+
+                    b.Property<string>("ProductTypeCd")
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasColumnName("PRODUCT_TYPE_CD");
 
                     b.HasKey("ProductCd");
 

@@ -12,6 +12,7 @@ namespace DAL.Entities
     public class Individual
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Column("CUST_ID")]
         [Required]
         public int Cust_Id { get; set; }

@@ -10,10 +10,11 @@ namespace BLL.Services.IServices
     public interface IAccTransactionService
     {
         IEnumerable<AccTransaction> GetAll();
-        AccTransaction GetById(int id);
-        void Add(AccTransaction accTransaction);
-        void Update(AccTransaction accTransaction);
-        void Delete(int id);
+        AccTransaction GetById(long id);
+
+        AccTransaction Add(AccTransaction accTransaction);
+        AccTransaction Update(AccTransaction accTransaction);
+        AccTransaction Delete(int id);
 
     }
 }

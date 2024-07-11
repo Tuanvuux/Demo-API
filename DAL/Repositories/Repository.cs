@@ -28,21 +28,24 @@ public class Repository<T> : IRepository<T> where T : class
         return _entities.Where(predicate);
     }
 
-    public void Add(T entity)
+    public T Add(T entity)
     {
         _entities.Add(entity);
         _context.SaveChanges();
+        return entity;
     }
 
-    public void Update(T entity)
+    public T Update(T entity)
     {
         _entities.Update(entity);
         _context.SaveChanges();
+        return entity;
     }
 
-    public void Remove(T entity)
+    public T Remove(T entity)
     {
         _entities.Remove(entity);
         _context.SaveChanges();
+        return entity;
     }
 }

@@ -39,12 +39,13 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _ProductTypeService.Add(productType);
-                return Ok();
+                var proT=_ProductTypeService.Add(productType);
+                return Ok(proT);
             }
-            catch
+            catch (AggregateException ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 
@@ -53,8 +54,8 @@ namespace Demo_API.Controllers
         {
             try
             {
-                _ProductTypeService?.Delete(id);
-                return Ok();
+                var proT=_ProductTypeService?.Delete(id);
+                return Ok(proT);
             }
             catch
             {
@@ -65,16 +66,18 @@ namespace Demo_API.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, ProductType productType)
         {
+            try
+            { 
             var data = _ProductTypeService.GetById(id);
-            if (data != null)
-            {
+           
                 productType.ProductTypeCd = data.ProductTypeCd;
-                _ProductTypeService.Update(productType);
-                return Ok();
+                var proT=_ProductTypeService.Update(productType);
+                return Ok(proT);
             }
-            else
+            catch (AggregateException ex)
             {
-                return BadRequest();
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
             }
         }
 

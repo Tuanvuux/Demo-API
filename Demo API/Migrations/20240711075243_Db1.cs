@@ -21,9 +21,9 @@ namespace Demo_API.Migrations
                     FUNDS_AVAIL_DATE = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TXN_DATE = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TXN_TYPE_CD = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
-                    ACCOUNT_ID = table.Column<int>(type: "int", nullable: true),
-                    EXCUTION_BRANCH_ID = table.Column<int>(type: "int", nullable: true),
-                    TELLER_EMP_ID = table.Column<int>(type: "int", nullable: true)
+                    ACCOUNT_ID = table.Column<int>(type: "int", nullable: false),
+                    EXCUTION_BRANCH_ID = table.Column<int>(type: "int", nullable: false),
+                    TELLER_EMP_ID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -42,6 +42,7 @@ namespace Demo_API.Migrations
                     OPEN_DATE = table.Column<DateOnly>(type: "date", nullable: false),
                     PENDING_BALANCE = table.Column<float>(type: "real", nullable: true),
                     STATUS = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    CUST_ID = table.Column<int>(type: "int", nullable: false),
                     OPEN_EMP_ID = table.Column<int>(type: "int", nullable: false),
                     OPEN_BRANCH_ID = table.Column<int>(type: "int", nullable: false),
                     PRODUCT_CD = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false)
@@ -72,8 +73,7 @@ namespace Demo_API.Migrations
                 name: "BUSINESS",
                 columns: table => new
                 {
-                    CUST_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CUST_ID = table.Column<int>(type: "int", nullable: false),
                     INCORP_DATE = table.Column<DateOnly>(type: "date", nullable: true),
                     NAME = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     STATE_ID = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true)
@@ -125,8 +125,9 @@ namespace Demo_API.Migrations
                     LAST_NAME = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     START_DAY = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TITLE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    DEPT_ID = table.Column<int>(type: "int", nullable: true),
-                    SUPERIOR_EMP_ID = table.Column<int>(type: "int", nullable: true)
+                    ASSIGNED_BRANCH_ID = table.Column<int>(type: "int", nullable: false),
+                    DEPT_ID = table.Column<int>(type: "int", nullable: false),
+                    SUPERIOR_EMP_ID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -137,8 +138,7 @@ namespace Demo_API.Migrations
                 name: "INDIVIDUAL",
                 columns: table => new
                 {
-                    CUST_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CUST_ID = table.Column<int>(type: "int", nullable: false),
                     BIRTH_DAY = table.Column<DateOnly>(type: "date", nullable: false),
                     FIRST_NAME = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     LAST_NAME = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
@@ -152,10 +152,11 @@ namespace Demo_API.Migrations
                 name: "PRODUCT",
                 columns: table => new
                 {
-                    PRODUCT_CD = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
+                    PRODUCT_CD = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     DATE_OFFERED = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DATE_RETIRED = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    PRODUCT_TYPE_CD = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true)
                 },
                 constraints: table =>
                 {

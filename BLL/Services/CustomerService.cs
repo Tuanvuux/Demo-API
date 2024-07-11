@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BLL.Services
 {
@@ -24,24 +25,25 @@ namespace BLL.Services
             _IndividualRepository = IndividualRepository;
         }
 
-        public void Add(Customer customer)
+        public Customer Add(Customer customer)
         {
-            _CustomerRepository.Add(customer);
+            Customer Cus=_CustomerRepository.Add(customer);
+            return Cus;
         }
 
-        public void AddDTO(CustomerDTO customerDTO)
+        public CustomerDTO AddDTO(CustomerDTO customerDTO)
         {
-            //_BusinessRepository.Add(customerDTO.business)
-            Business business = new Business();
-            business.Name = customerDTO.Name;
-            business.StateId = customerDTO.StateId;
-            business.IncorpDate = customerDTO.IncorpDate;
-            _BusinessRepository.Add(business);
-            Individual individual = new Individual();
-            individual.BirthDay = customerDTO.BirthDay;
-            individual.FirstName = customerDTO.FirstName;
-            individual.LastName = customerDTO.LastName; 
-            _IndividualRepository.Add(individual);
+            var errors = new List<string>();
+
+            
+            if (customerDTO.CustTypeCd != "B" && customerDTO.CustTypeCd !="I")
+            {
+                errors.Add("CUST_TYPE_CD different from B or I");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
             Customer customer = new Customer();
             customer.Address = customerDTO.Address;
             customer.City = customerDTO.City;
@@ -49,16 +51,33 @@ namespace BLL.Services
             customer.FedId = customerDTO.FedId;
             customer.PostalCode = customerDTO.PostalCode;
             customer.State = customerDTO.State;
-            _CustomerRepository.Add(customer);
+            Customer cus=_CustomerRepository.Add(customer);
+            //_BusinessRepository.Add(customerDTO.business)
+            Business business = new Business();
+            business.CustId = cus.CustId;
+            business.Name = customerDTO.Name;
+            business.StateId = customerDTO.StateId;
+            business.IncorpDate = customerDTO.IncorpDate;
+            _BusinessRepository.Add(business);
+            Individual individual = new Individual();
+            individual.Cust_Id=cus.CustId;
+            individual.BirthDay = customerDTO.BirthDay;
+            individual.FirstName = customerDTO.FirstName;
+            individual.LastName = customerDTO.LastName; 
+            _IndividualRepository.Add(individual);
+            customerDTO.CustId=cus.CustId;
+            
+            return customerDTO;
             
             //_IndividualRepository.Add(customerDTO.individual);
 
 
         }
 
-        public void Delete(int id)
+        public Customer Delete(int id)
         {
-            _CustomerRepository.Remove(GetById(id));
+            Customer customer= _CustomerRepository.Remove(GetById(id));
+            return customer;
         }
 
         public IEnumerable<Customer> GetAll()
@@ -71,20 +90,35 @@ namespace BLL.Services
             return _CustomerRepository.GetById(id); ;
         }
 
-        public void Update(Customer customer)
+        public Customer Update(Customer customer)
         {
+            var errors = new List<string>();
+            if (customer.CustTypeCd != "B" || customer.CustTypeCd != "I")
+            {
+                errors.Add("CUST_TYPE_CD different from B or I");
+            }
+            
 
             var existingCustomer = _CustomerRepository.GetById(customer.CustId);
-            if (existingCustomer != null)
+            if (existingCustomer == null)
             {
-                existingCustomer.Address = customer.Address;
-                existingCustomer.City = customer.City;
-                existingCustomer.CustTypeCd = customer.CustTypeCd;
-                existingCustomer.FedId = customer.FedId;
-                existingCustomer.PostalCode = customer.PostalCode;
-                existingCustomer.State = customer.State;
-                _CustomerRepository.Update(customer);
+                errors.Add("Customer is not found");
             }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingCustomer.Address = customer.Address;
+            existingCustomer.City = customer.City;
+            existingCustomer.CustTypeCd = customer.CustTypeCd;
+            existingCustomer.FedId = customer.FedId;
+            existingCustomer.PostalCode = customer.PostalCode;
+            existingCustomer.State = customer.State;
+            Customer Cus = _CustomerRepository.Update(existingCustomer);
+            return Cus;
+            
         }
+
+        
     }
 }

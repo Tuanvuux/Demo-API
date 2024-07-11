@@ -12,16 +12,17 @@ namespace DAL.Repositories
 {
     public class ProductTypeRepository : Repository<ProductType>, IProductTypeRepository
     {
-        private readonly APIDbContext _context;
+        private readonly APIDbContext context;
         public ProductTypeRepository(APIDbContext context) : base(context) {
-            _context = context;
+           this.context = context;
         }
 
         public ProductType FindById( string id)
         {
-            return (from pt in _context.ProductTypes
-                    where pt.ProductTypeCd == id
-                    select pt).FirstOrDefault();
+            var productType = (from pt in context.ProductTypes
+                              where pt.ProductTypeCd == id
+                              select pt).FirstOrDefault();
+            return productType;
         }
 
         

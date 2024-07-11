@@ -24,7 +24,7 @@ namespace BLL.Services
             _EmployeeRepository = EmployeeRepository;
         }
 
-        public void Add(Account account)
+        public Account Add(Account account)
         {
             Account ValidAccount = _AccountRepository.GetById(account.Account_Id);
             Branch ValidBranch = _BranchRepository.GetById(account.OpenBranchId);
@@ -52,12 +52,15 @@ namespace BLL.Services
             {
                 throw new AggregateException(errors.Select(e => new Exception(e)));
             }
-            _AccountRepository.Add(account);
+            Account acc=_AccountRepository.Add(account);
+            return acc;
         }
 
-        public void Delete(int id)
+        public Account Delete(int id)
         {
-            _AccountRepository.Remove(GetById(id));
+
+            Account Account =_AccountRepository.Remove(GetById(id));
+            return Account;
         }
 
         public IEnumerable<Account> GetAll()
@@ -70,9 +73,49 @@ namespace BLL.Services
             return _AccountRepository.GetById(id); ;
         }
 
-        public void Update(Account account)
+        public Account Update(Account account)
         {
-            throw new NotImplementedException();
+            
+            Branch ValidBranch = _BranchRepository.GetById(account.OpenBranchId);
+            Customer ValidCustomer = _CustomerRepository.GetById(account.CustId);
+            Employee ValidEmployee = _EmployeeRepository.GetById(account.OpenEmpId);
+            var errors = new List<string>();
+            
+            if (ValidBranch == null)
+            {
+                errors.Add("Branch does not exist");
+            }
+            if (ValidCustomer == null)
+            {
+                errors.Add("Customer does not exist");
+            }
+            if (_EmployeeRepository == null)
+            {
+                errors.Add("Employee does not exist");
+            }
+        
+            var existingAccount = _AccountRepository.GetById(account.Account_Id);
+            if (existingAccount == null)
+            {
+                errors.Add("Account Invalidate");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            existingAccount.AvailBalance = account.AvailBalance;
+            existingAccount.CloseDate = account.CloseDate;
+            existingAccount.LastActivityDay = account.LastActivityDay;
+            existingAccount.OpenDate = account.OpenDate;
+            existingAccount.PendingBalance = account.PendingBalance;
+            existingAccount.Status = account.Status;
+            existingAccount.CustId = account.CustId;
+            existingAccount.OpenBranchId = account.OpenBranchId;
+            existingAccount.OpenEmpId = account.OpenEmpId;
+            existingAccount.ProductCd = account.ProductCd;
+            Account Account =_AccountRepository.Update(existingAccount);
+            return Account;
+            
         }
     }
 }

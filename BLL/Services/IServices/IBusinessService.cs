@@ -11,9 +11,9 @@ namespace BLL.Services.IServices
     {
         IEnumerable<Business> GetAll();
         Business GetById(int id);
-        void Add(Business business);
-        void Update(Business business);
-        void Delete(int id);
+        Business Add(Business business);
+        Business Update(Business business);
+        Business Delete(int id);
 
     }
 }

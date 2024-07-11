@@ -11,9 +11,9 @@ namespace BLL.Services.IServices
     {
         IEnumerable<Employee> GetAll();
         Employee GetById(int id);
-        void Add(Employee employee);
-        void Update(Employee employee);
-        void Delete(int id);
+        Employee Add(Employee employee);
+        Employee Update(Employee employee);
+        Employee Delete(int id);
 
     }
 }

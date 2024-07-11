@@ -11,9 +11,9 @@ namespace BLL.Services.IServices
     {
         IEnumerable<ProductType> GetAll();
         ProductType GetById(int id);
-        void Add(ProductType productType);
-        void Update(ProductType productType);
-        void Delete(int id);
+        ProductType Add(ProductType productType);
+        ProductType Update(ProductType productType);
+        ProductType Delete(int id);
 
     }
 }

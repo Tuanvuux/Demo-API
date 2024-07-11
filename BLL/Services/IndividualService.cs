@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace BLL.Services
 {
@@ -18,14 +19,16 @@ namespace BLL.Services
             _IndividualRepository = IndividualRepository;
         }
 
-        public void Add(Individual individual)
+        public Individual Add(Individual individual)
         {
-            _IndividualRepository.Add(individual);
+            Individual indi=_IndividualRepository.Add(individual);
+            return indi;
         }
 
-        public void Delete(int id)
+        public Individual Delete(int id)
         {
-            _IndividualRepository.Remove(GetById(id));
+            Individual individual =  _IndividualRepository.Remove(GetById(id));
+            return individual;
         }
 
         public IEnumerable<Individual> GetAll()
@@ -38,16 +41,26 @@ namespace BLL.Services
             return _IndividualRepository.GetById(id); ;
         }
 
-        public void Update(Individual individual)
+        public Individual Update(Individual individual)
         {
-
+            var errors = new List<string>();
             var existingIndividual = _IndividualRepository.GetById(individual.Cust_Id);
-            if (existingIndividual != null)
+            if (existingIndividual == null)
             {
-                existingIndividual.BirthDay = individual.BirthDay;
-                existingIndividual.FirstName = individual.FirstName;
-                existingIndividual.LastName = individual.LastName;
+                errors.Add("Individual is not exist");
             }
+   
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+
+            
+            existingIndividual.BirthDay = individual.BirthDay;
+            existingIndividual.FirstName = individual.FirstName;
+            existingIndividual.LastName = individual.LastName;
+            Individual indivi=_IndividualRepository.Update(existingIndividual);
+            return indivi;
         }
     }
 }
