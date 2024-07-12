@@ -30,11 +30,13 @@ namespace BLL.Services
             Department validDepartment = _DepartmentRepository.GetById(employee.DeptId);
             var errors = new List<string>();
 
+            IEnumerable<Employee> employees = _EmployeeRepository.GetAll();
+            if (employees.Any()) {
+                if (validEmployee == null)
+                {
+                    errors.Add("SuperiorEmpId Invalid");
+                }
 
-
-            if (validEmployee == null)
-            {
-                errors.Add("SuperiorEmpId Invalid");
             }
             if (validBranch == null) 
             {

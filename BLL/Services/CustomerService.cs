@@ -124,8 +124,34 @@ namespace BLL.Services
 
         List<CustomerDTORespond> ICustomerService.GetCustomerByName(string name)
         {
+            var errors = new List<string>();
             List<CustomerDTORespond> List = _CustomerRepository.GetCustomerByName(name);
+            if (List == null || !List.Any())
+            {
+                errors.Add("Customer is not found");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            return List;
+
+        }
+        public List<CustomerAccountDTO> GetCustomerAccountsAndTransactions(int customerId)
+        {
+            var errors = new List<string>();
+            List<CustomerAccountDTO> List = _CustomerRepository.GetCustomerAccountsAndTransactions(customerId);
+            if (List == null || !List.Any())
+            {
+                errors.Add("Customer is not found");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
             return List;
         }
+
+        
     }
 }

@@ -39,5 +39,8 @@ namespace DAL.DTO
         public DateOnly BirthDay { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+
+
+
     }
 }

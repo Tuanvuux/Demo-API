@@ -19,9 +19,29 @@ namespace Demo_API.Controllers
         [HttpGet("name/{name}")]
         public IActionResult GetName(string name)
         {
-            
-            return Ok(_CustomerService.GetCustomerByName(name));
+            try
+            {
+                return Ok(_CustomerService.GetCustomerByName(name));
+            }
+            catch (AggregateException ex)
+            {
+                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+                return BadRequest(new { Errors = errors });
+            }
 
+        }
+        [HttpGet("transaction/{id}")]
+        public IActionResult GetTransaction(int id)
+        {
+            try
+            {
+                return Ok(_CustomerService.GetCustomerAccountsAndTransactions(id));
+            }
+            catch (AggregateException ex)
+            {
+                var errors = ex.InnerExceptions.Select(ex => ex.Message).ToList();
+                return BadRequest(new { Errors = errors });
+            }
         }
 
         [HttpGet("{id}")]

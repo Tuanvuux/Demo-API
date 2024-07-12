@@ -18,5 +18,6 @@ namespace BLL.Services.IServices
         CustomerDTO AddDTO(CustomerDTO customerDTO);
 
         List<CustomerDTORespond> GetCustomerByName(String name);
+        List<CustomerAccountDTO> GetCustomerAccountsAndTransactions(int customerId);
     }
 }

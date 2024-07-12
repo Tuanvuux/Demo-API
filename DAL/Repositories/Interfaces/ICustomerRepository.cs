@@ -11,5 +11,6 @@ namespace DAL.Repositories.Interfaces
     public interface ICustomerRepository : IRepository<Customer>
     {
         List<CustomerDTORespond> GetCustomerByName(string name);
+        List<CustomerAccountDTO> GetCustomerAccountsAndTransactions(int Id);
     }
 }
