@@ -17,5 +17,6 @@ namespace BLL.Services.IServices
         Customer Delete(int id);
         CustomerDTO AddDTO(CustomerDTO customerDTO);
 
+        List<CustomerDTORespond> GetCustomerByName(String name);
     }
 }

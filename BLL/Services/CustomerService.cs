@@ -30,6 +30,7 @@ namespace BLL.Services
             Customer Cus=_CustomerRepository.Add(customer);
             return Cus;
         }
+        
 
         public CustomerDTO AddDTO(CustomerDTO customerDTO)
         {
@@ -90,6 +91,8 @@ namespace BLL.Services
             return _CustomerRepository.GetById(id); ;
         }
 
+       
+
         public Customer Update(Customer customer)
         {
             var errors = new List<string>();
@@ -119,6 +122,10 @@ namespace BLL.Services
             
         }
 
-        
+        List<CustomerDTORespond> ICustomerService.GetCustomerByName(string name)
+        {
+            List<CustomerDTORespond> List = _CustomerRepository.GetCustomerByName(name);
+            return List;
+        }
     }
 }

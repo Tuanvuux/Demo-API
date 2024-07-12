@@ -16,10 +16,12 @@ namespace Demo_API.Controllers
         {
             _CustomerService = CustomerService;
         }
-        [HttpGet("{name}")]
+        [HttpGet("name/{name}")]
         public IActionResult GetName(string name)
         {
-            throw new NotImplementedException();
+            
+            return Ok(_CustomerService.GetCustomerByName(name));
+
         }
 
         [HttpGet("{id}")]
