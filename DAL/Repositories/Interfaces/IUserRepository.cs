@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace DAL.Repositories.Interfaces
 {
-    public interface IDepartmentRepository : IRepository<Department>
+    public interface IUserRepository : IRepository<User>
     {
-        IEnumerable<Department> FindByName(string name);
+        User FindByEmail(string UserEmail);
     }
 }

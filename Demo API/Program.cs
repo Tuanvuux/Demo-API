@@ -20,13 +20,21 @@ namespace Demo_API
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowSpecificOrigin",
+                    builder => builder.WithOrigins("http://localhost:3000")
+                                      .AllowAnyHeader()
+                                      .AllowAnyMethod());
+            });
 
             builder.Services.AddDbContext<APIDbContext>(option =>
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("MyDB"), options =>
-            options.MigrationsAssembly("GUI"));
+                    options.MigrationsAssembly("GUI"));
             });
-            //Repository
+
+            // Repositories
             builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
             builder.Services.AddScoped<IBusinessRepository, BusinessRepository>();
             builder.Services.AddScoped<IIndividualRepository, IndividualRepository>();
@@ -37,8 +45,9 @@ namespace Demo_API
             builder.Services.AddScoped<IProductRepository, ProductRepository>();
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IAccTransactionRepository, AccTransactionRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-            //Service
+            // Services
             builder.Services.AddScoped<ICustomerService, CustomerService>();
             builder.Services.AddScoped<IBusinessService, BusinessService>();
             builder.Services.AddScoped<IIndividualService, IndividualService>();
@@ -49,12 +58,9 @@ namespace Demo_API
             builder.Services.AddScoped<IProductTypeService, ProductTypeService>();
             builder.Services.AddScoped<IAccountService, AccountService>();
             builder.Services.AddScoped<IAccTransactionService, AccTransactionService>();
-
-
-
+            builder.Services.AddScoped<IUserService, UserService>();
 
             var app = builder.Build();
-
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -65,8 +71,11 @@ namespace Demo_API
 
             app.UseHttpsRedirection();
 
-            app.UseAuthorization();
+            app.UseRouting();
 
+            app.UseCors("AllowSpecificOrigin");
+
+            app.UseAuthorization();
 
             app.MapControllers();
 

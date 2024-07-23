@@ -29,12 +29,12 @@ namespace Demo_API.Controllers
                 return BadRequest(new { Errors = errors });
             }
         }
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Department department)
+        [HttpPut]
+        public IActionResult Put( Department department)
         {
             try
             {
-                var data = _DepartmentService.GetById(id);
+                var data = _DepartmentService.GetById(department.DeptId);
 
                 department.DeptId = data.DeptId;
                 Department Dep = _DepartmentService.Update(department);
@@ -60,5 +60,30 @@ namespace Demo_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
+
+        [HttpGet]
+        public IActionResult GetAll(string name=null)
+        {
+            if (string.IsNullOrEmpty(name))
+            { return Ok(_DepartmentService.GetAll()); }
+            else
+            {
+                return Ok(_DepartmentService.FindByName(name));
+            }
+            
+        }
+
+
+
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var job = _DepartmentService.GetById(id);
+
+            return StatusCode(200, job);
+        }
+
+       
     }
 }

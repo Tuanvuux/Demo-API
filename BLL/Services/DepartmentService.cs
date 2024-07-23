@@ -34,8 +34,11 @@ namespace BLL.Services
 
         public IEnumerable<Department> GetAll()
         {
-            return _DepartmentRepository.GetAll();
+          
+                return _DepartmentRepository.GetAll();   
         }
+
+       
 
         public Department GetById(int id)
         {
@@ -58,6 +61,11 @@ namespace BLL.Services
 
             Department dep = _DepartmentRepository.Update(existingDepartment);
             return dep;
+        }
+
+        public IEnumerable<Department> FindByName(string name)
+        {
+           return _DepartmentRepository.FindByName(name); 
         }
     }
 }

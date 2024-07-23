@@ -12,8 +12,17 @@ namespace DAL.Repositories
 {
     public class DepartmentRepository : Repository<Department>, IDepartmentRepository
     {
+        private readonly APIDbContext context;
         public DepartmentRepository(APIDbContext context) : base(context)
         {
+            this.context = context;
+        }
+
+        public IEnumerable<Department> FindByName(string name)
+        {
+            return (from p in context.Departments
+                    where p.Name.Contains(name)
+                    select p);
         }
     }
 }

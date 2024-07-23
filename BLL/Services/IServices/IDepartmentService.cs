@@ -10,6 +10,7 @@ namespace BLL.Services.IServices
     public interface IDepartmentService
     {
         IEnumerable<Department> GetAll();
+        IEnumerable<Department> FindByName(string name);
         Department GetById(int id);
         Department Add(Department department);
         Department Update(Department department);
