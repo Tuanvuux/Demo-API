@@ -30,12 +30,12 @@ namespace Demo_API.Controllers
 
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Branch branch)
+        [HttpPut]
+        public IActionResult Put(Branch branch)
         {
             try
             {
-                var data = _BranchService.GetById(id);
+                var data = _BranchService.GetById(branch.BranchId);
 
                 branch.BranchId = data.BranchId;
                 var Bra = _BranchService.Update(branch);
@@ -59,6 +59,28 @@ namespace Demo_API.Controllers
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
+        }
+        [HttpGet]
+        public IActionResult GetAll(string name = null)
+        {
+            if (string.IsNullOrEmpty(name))
+            { return Ok(_BranchService.GetAll()); }
+            else
+            {
+                return Ok(_BranchService.FindByName(name));
+            }
+
+        }
+
+
+
+
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
+        {
+            var job = _BranchService.GetById(id);
+
+            return StatusCode(200, job);
         }
     }
     

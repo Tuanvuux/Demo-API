@@ -12,5 +12,6 @@ namespace DAL.Repositories.Interfaces
     {
         List<CustomerDTORespond> GetCustomerByName(string name);
         List<CustomerAccountDTO> GetCustomerAccountsAndTransactions(int Id);
+        List<CustomerDTORespond> GetAllCustomerDTO();
     }
 }

@@ -21,7 +21,7 @@ namespace DAL.Entities
 
         [Column("INCORP_DATE")]
         [DataType(DataType.Date)]
-        public DateOnly? IncorpDate {  get; set; }
+        public DateTime? IncorpDate {  get; set; }
 
         [Column("NAME")]
         [StringLength(255)]

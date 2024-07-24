@@ -30,12 +30,12 @@ namespace BLL.Services
 
         public IEnumerable<Branch> GetAll()
         {
-            throw new NotImplementedException();
+            return _BranchRepository.GetAll();
         }
 
         public Branch GetById(int id)
         {
-            throw new NotImplementedException();
+            return _BranchRepository.GetById(id);
         }
 
         public Branch Update(Branch branch)
@@ -58,6 +58,10 @@ namespace BLL.Services
 
             Branch br =  _BranchRepository.Update(existingBranch);
             return br;
+        }
+        public IEnumerable<Branch> FindByName(string name)
+        {
+            return _BranchRepository.FindByName(name);
         }
     }
 }

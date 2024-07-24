@@ -96,7 +96,26 @@ namespace DAL.Repositories
             return groupedByCustomer;
         }
 
+        public List<CustomerDTORespond> GetAllCustomerDTO()
+        {
+            var query = from customer in _context.Customers
+                        join business in _context.Businesses on customer.CustId equals business.CustId into businessGroup
+                        from business in businessGroup.DefaultIfEmpty()
+                        join individual in _context.Individuals on customer.CustId equals individual.Cust_Id into individualGroup
+                        from individual in individualGroup.DefaultIfEmpty()
+                        select new CustomerDTORespond
+                        {
+                            CustId = customer.CustId,
+                            FullName = customer.CustTypeCd == "B" ? business.Name : individual.FirstName + " " + individual.LastName,
+                            BirthDay = customer.CustTypeCd == "I" ? individual.BirthDay : null,
+                            IncorpDay = customer.CustTypeCd == "B" ? business.IncorpDate : null,
+                            Address = customer.Address,
+                            City = customer.City,
+                            CustomerType = customer.CustTypeCd == "B" ? "BUSINESS" : "INDIVIDUAL"
+                        };
 
-
+            List<CustomerDTORespond> results = query.ToList();
+            return results;
+        }
     }
 }

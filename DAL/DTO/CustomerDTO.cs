@@ -31,12 +31,12 @@ namespace DAL.DTO
 
         public string? State { get; set; }
   
-        public DateOnly? IncorpDate { get; set; }
+        public DateTime? IncorpDate { get; set; }
 
         public String? Name { get; set; }
 
         public String? StateId { get; set; }
-        public DateOnly BirthDay { get; set; }
+        public DateTime BirthDay { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
 

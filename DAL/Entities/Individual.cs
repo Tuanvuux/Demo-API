@@ -21,7 +21,7 @@ namespace DAL.Entities
         [Column("BIRTH_DAY")]
         [DataType(DataType.Date)]
         [Required]
-        public DateOnly BirthDay { get; set; }
+        public DateTime BirthDay { get; set; }
 
         [Column("FIRST_NAME")]
         [StringLength(30)]

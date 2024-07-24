@@ -16,20 +16,33 @@ namespace Demo_API.Controllers
         {
             _CustomerService = CustomerService;
         }
-        [HttpGet("name/{name}")]
-        public IActionResult GetName(string name)
+        //[HttpGet("name/{name}")]
+        //public IActionResult GetName(string name)
+        //{
+        //    try
+        //    {
+        //        return Ok(_CustomerService.GetCustomerByName(name));
+        //    }
+        //    catch (AggregateException ex)
+        //    {
+        //        var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
+        //        return BadRequest(new { Errors = errors });
+        //    }
+
+        //}
+        [HttpGet]
+        public IActionResult GetAll(string name = null)
         {
-            try
+            if (string.IsNullOrEmpty(name))
+            { return Ok(_CustomerService.GetAllCustomerDTO()); }
+            else
             {
                 return Ok(_CustomerService.GetCustomerByName(name));
             }
-            catch (AggregateException ex)
-            {
-                var errors = ex.InnerExceptions.Select(e => e.Message).ToList();
-                return BadRequest(new { Errors = errors });
-            }
 
         }
+
+
         [HttpGet("transaction/{id}")]
         public IActionResult GetTransaction(int id)
         {
@@ -56,11 +69,11 @@ namespace Demo_API.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
-        [HttpGet]
-        public IActionResult GetAll()
-        {
-            return Ok(_CustomerService.GetAll());
-        }
+        //[HttpGet]
+        //public IActionResult GetAll()
+        //{
+        //    return Ok(_CustomerService.GetAll());
+        //}
 
         [HttpPost]
         public IActionResult AddDTO(CustomerDTO customerDTO)

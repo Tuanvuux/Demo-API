@@ -10,6 +10,7 @@ namespace BLL.Services.IServices
     public interface IBranchService
     {
         IEnumerable<Branch> GetAll();
+        IEnumerable<Branch> FindByName(string name);
         Branch GetById(int id);
         Branch Add(Branch branch);
         Branch Update(Branch branch);

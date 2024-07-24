@@ -121,7 +121,7 @@ namespace BLL.Services
             return Cus;
             
         }
-
+       
         List<CustomerDTORespond> ICustomerService.GetCustomerByName(string name)
         {
             var errors = new List<string>();
@@ -152,6 +152,19 @@ namespace BLL.Services
             return List;
         }
 
-        
+        List<CustomerDTORespond> ICustomerService.GetAllCustomerDTO()
+        {
+            var errors = new List<string>();
+            List<CustomerDTORespond> List = _CustomerRepository.GetAllCustomerDTO();
+            if (List == null || !List.Any())
+            {
+                errors.Add("Customer is not found");
+            }
+            if (errors.Any())
+            {
+                throw new AggregateException(errors.Select(e => new Exception(e)));
+            }
+            return List;
+        }
     }
 }
