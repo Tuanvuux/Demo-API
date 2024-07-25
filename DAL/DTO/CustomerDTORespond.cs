@@ -15,5 +15,6 @@ namespace DAL.DTO
         public string? Address { get; set; }
         public string? City { get; set; }
         public string? CustomerType { get; set; }
+        public float? TotalBalance { get; set; }
     }
 }

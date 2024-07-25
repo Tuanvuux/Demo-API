@@ -63,12 +63,12 @@ namespace Demo_API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Individual individual)
+        [HttpPut]
+        public IActionResult Put(Individual individual)
         {
             try
             { 
-            var data = _IndividualService.GetById(id);
+            var data = _IndividualService.GetById(individual.Cust_Id);
             
                 individual.Cust_Id = data.Cust_Id;
                 var Ind=_IndividualService.Update(individual);

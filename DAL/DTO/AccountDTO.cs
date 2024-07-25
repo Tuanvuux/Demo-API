@@ -27,6 +27,7 @@ namespace DAL.DTO
         public String EmployeeName { get; set; }
         public String ProductName { get; set; }
         public String ProductTypeName { get; set; }
+        public float? TotalBalance { get; set; }
         public List<AccountTransactionDTO> AccountTransaction { get; set; }  
 
     }

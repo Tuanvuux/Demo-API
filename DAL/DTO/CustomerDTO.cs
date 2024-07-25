@@ -12,7 +12,7 @@ namespace DAL.DTO
     public class CustomerDTO
     {
 
-        public int? CustId { get; set; }
+        public int CustId { get; set; }
 
 
         public string? Address { get; set; }

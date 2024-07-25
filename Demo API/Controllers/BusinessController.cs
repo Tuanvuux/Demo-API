@@ -64,11 +64,11 @@ namespace Demo_API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, Business business)
+        public IActionResult Put( Business business)
         {
             try
             {
-                var data = _BusinessService.GetById(id);       
+                var data = _BusinessService.GetById(business.CustId);       
                 business.CustId = data.CustId;
                 var Acc=_BusinessService.Update(business);
                 return Ok(Acc);

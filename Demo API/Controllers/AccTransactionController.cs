@@ -64,12 +64,12 @@ namespace Demo_API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, AccTransaction accTransaction)
+        [HttpPut]
+        public IActionResult Put( AccTransaction accTransaction)
         {
             try
             {
-                var data = _AccTransactionService.GetById(id);
+                var data = _AccTransactionService.GetById(accTransaction.Txn_Id);
             
                 accTransaction.Txn_Id = data.Txn_Id;
                 var AccTran= _AccTransactionService.Update(accTransaction);

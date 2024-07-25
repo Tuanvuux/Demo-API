@@ -105,15 +105,15 @@ namespace Demo_API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Put(int id, Customer customer)
+        [HttpPut]
+        public IActionResult Put(CustomerDTO customerDTO)
         {
             try
             { 
-            var data = _CustomerService.GetById(id);
+            var data = _CustomerService.GetById(customerDTO.CustId);
             
-                customer.CustId = data.CustId;
-                var Cus=_CustomerService.Update(customer);
+                customerDTO.CustId = data.CustId;
+                var Cus=_CustomerService.Update(customerDTO);
                 return Ok(Cus);
             }
             catch (AggregateException ex)

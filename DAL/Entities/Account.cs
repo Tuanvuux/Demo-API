@@ -22,16 +22,16 @@ namespace DAL.Entities
 
         [Column("CLOSE_DATE")]
         [DataType(DataType.Date)]
-        public DateOnly? CloseDate { get; set; }
+        public DateTime? CloseDate { get; set; }
 
         [Column("LAST_ACTIVITY_DATE")]
         [DataType(DataType.Date)]
-        public DateOnly? LastActivityDay { get; set; }
+        public DateTime? LastActivityDay { get; set; }
 
         [Column("OPEN_DATE")]
         [DataType(DataType.Date)]
         [Required]
-        public DateOnly OpenDate { get; set; }
+        public DateTime OpenDate { get; set; }
 
         [Column("PENDING_BALANCE")]
 

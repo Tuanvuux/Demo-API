@@ -13,7 +13,7 @@ namespace BLL.Services.IServices
         IEnumerable<Customer> GetAll();
         Customer GetById(int id);
         Customer Add(Customer customer);
-        Customer Update(Customer customer);
+        CustomerDTO Update(CustomerDTO customerDTO);
         Customer Delete(int id);
         CustomerDTO AddDTO(CustomerDTO customerDTO);
 
